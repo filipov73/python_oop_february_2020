@@ -1,4 +1,6 @@
 class Flower:
+    # is_happy = False
+
     def __init__(self, name, water_requirements):
         self.name = name
         self.water_requirements = water_requirements
@@ -9,6 +11,7 @@ class Flower:
         self.water_quantity += quantity
         if self.water_quantity >= self.water_requirements:
             self.is_happy = True
+        # self.is_happy = self.water_quantity >= self.water_requirements
 
     def status(self):
         if self.is_happy:
