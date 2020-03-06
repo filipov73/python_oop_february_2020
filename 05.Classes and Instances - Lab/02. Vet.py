@@ -22,7 +22,8 @@ class Vet:
 
     def unregister_animal(self, animal_name):
         if animal_name in Vet.animals:
-            animal_index_instance, animal_index_class = Vet.animal_indexes(self, animal_name)
+            animal_index_instance, animal_index_class = self.animal_indexes(animal_name)
+            # self.animals.remove(animal_name)
             Vet.animals.pop(animal_index_class)
             self.animals.pop(animal_index_instance)
             Vet.space += 1
