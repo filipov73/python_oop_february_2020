@@ -8,10 +8,21 @@ class Circle:
         self.radius = new_radius
 
     def get_area(self):
-        return f"{Circle.pi * (self.radius ** 2)}"
+        rez = self.pi * (self.radius * self.radius)
+        return round(rez, 2)
+        # return f"{rez:.2f}" -> problem str output
 
     def get_circumference(self):
-        return f"{2 * Circle.pi * self.radius}"
+        rez = 2 * (self.pi * self.radius)
+        return rez
+
+"""
+Create a class attribute called pi which should equal 3.14. Create 3 instance methods:
+-	set_radius(new_radius) - changes the radius
+-	get_area() - returns the area of the circle
+-	get_circumference() - returns the circumference of the circle
+The area should be rounded to the 2nd decimal.
+"""
 
 
 circle = Circle(10)
