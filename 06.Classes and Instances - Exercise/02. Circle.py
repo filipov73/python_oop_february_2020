@@ -16,6 +16,7 @@ class Circle:
         rez = 2 * (self.pi * self.radius)
         return rez
 
+
 """
 Create a class attribute called pi which should equal 3.14. Create 3 instance methods:
 -	set_radius(new_radius) - changes the radius

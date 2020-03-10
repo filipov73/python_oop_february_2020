@@ -17,7 +17,11 @@ class Account:
     def info(self):
         return f"User {self.name} with account {self.id} has {self.balance} balance"
 
-
+"""
+-	o the balance and return the new balance
+-	debit(amount) - if the amount is less than the balance, reduce the balance by the amount and return the new balance. Otherwise return "Amount exceeded balance"
+-	info() - returns "User {name} with account {id} has {balance} balance"
+"""
 account = Account(1234, "George", 1000)
 print(account.credit(500))
 print(account.debit(1500))

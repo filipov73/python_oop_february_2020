@@ -22,7 +22,6 @@ print(employee.get_full_name())
 print(employee.raise_salary(500))
 print(employee.get_annual_salary())
 
-
 """
 John Smith
 1500
