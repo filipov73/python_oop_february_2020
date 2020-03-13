@@ -4,7 +4,8 @@ class Lion:
         self.gender = gender
         self.age = age
 
-    def get_needs(self):
+    @staticmethod
+    def get_needs():
         return 50
 
     def __repr__(self):
@@ -68,11 +69,11 @@ class Vet:
 
 
 class Zoo:
-    def __init__(self, name: str, budget: int, animlal_capacity: int, workers_capacity: int):
+    def __init__(self, name, budget, animal_capacity, workers_capacity):
         self.name = name
-        self.budget = budget
-        self.animlal_capacity = animlal_capacity
-        self.workers_capacity = workers_capacity
+        self.__budget = budget
+        self.__animal_capacity = animal_capacity
+        self.__workers_capacity = workers_capacity
         self.animals = []
         self.workers = []
 
@@ -86,11 +87,11 @@ class Zoo:
             sum_tend += obj.get_needs()
         return sum_tend
 
-    def __check_worker_in_list(self, worker_name):
-        for worker in self.workers:
-            if worker.name == worker_name:
-                return True
-        return False
+    # def __check_worker_in_list(self, worker_name):
+    #     for worker in self.workers:
+    #         if worker.name == worker_name:
+    #             return True
+    #     return False
 
     def __filter_animals(self, kind):
         animals_ = list(filter(lambda x: x.__class__.__name__ == kind, self.animals))
@@ -101,126 +102,136 @@ class Zoo:
         return workers_
 
 
-    @property
-    def budget(self):
-        return self.__budget
-
-    @budget.setter
-    def budget(self, value):
-        self.__budget = value
-
-    @property
-    def animlal_capacity(self):
-        return self.__animlal_capacity
-
-    @animlal_capacity.setter
-    def animlal_capacity(self, value):
-        self.__animlal_capacity = value
-
-    @property
-    def workers_capacity(self):
-        return self.__workers_capacity
-
-    @workers_capacity.setter
-    def workers_capacity(self, value):
-        self.__workers_capacity = value
+    # @property
+    # def budget(self):
+    #     return self.__budget
+    #
+    # @budget.setter
+    # def budget(self, value):
+    #     self.__budget = value
+    #
+    # @property
+    # def animal_capacity(self):
+    #     return self.__animal_capacity
+    #
+    # @animal_capacity.setter
+    # def animal_capacity(self, value):
+    #     self.__animal_capacity = value
+    #
+    # @property
+    # def workers_capacity(self):
+    #     return self.__workers_capacity
+    #
+    # @workers_capacity.setter
+    # def workers_capacity(self, value):
+    #     self.__workers_capacity = value
 
     def add_animal(self, animal, price):
-        if not self.animlal_capacity:
+        if len(self.animals) >= self.__animal_capacity:
             return "Not enough space for animal"
 
-        if self.budget - price < 0:
+        if self.__budget - price < 0:
             return "Not enough budget"
 
         self.animals.append(animal)
-        self.budget -= price
-        self.animlal_capacity -= 1
+        self.__budget -= price
+        # self.__animal_capacity -= 1
         return f"{animal.name} the {animal.__class__.__name__} added to the zoo"
 
-    def hire_worker(self, worker):
-        if not self.workers_capacity:
+    def hire_worker(self, w):
+        if len(self.workers) >= self.__workers_capacity:
             return "Not enough space for worker"
-        self.workers.append(worker)
-        self.workers_capacity -= 1
-        return f"{worker.name} the {worker.__class__.__name__} hired successfully"
+
+        self.workers.append(w)
+        # self.__workers_capacity -= 1
+        return f"{w.name} the {w.__class__.__name__} hired successfully"
 
     def fire_worker(self, worker_name):
-        check_worker = self.__check_worker_in_list(worker_name)
-        if not check_worker:
-            return f"There is no {worker_name} in the zoo"
+        for worker in self.workers:
+            if worker.name == worker_name:
+                self.workers.remove(worker)
+                return f"{worker_name} fired successfully"
+        return f"There is no {worker_name} in the zoo"
 
-        del_worker = list(filter(lambda x: x.name == worker_name, self.workers))[0]
-        self.workers.remove(del_worker)
-        return f"{worker_name} fired successfully"
+        # check_worker = self.__check_worker_in_list(worker_name)
+        # if not check_worker:
+        #     return f"There is no {worker_name} in the zoo"
+        #
+        # del_worker = list(filter(lambda x: x.name == worker_name, self.workers))[0]
+        # self.workers.remove(del_worker)
+        # return f"{worker_name} fired successfully"
 
     def pay_workers(self):
         sum_salary = self.__sum_all_salary()
-        if self.budget < sum_salary:
+        if self.__budget < sum_salary:
             return "You have no budget to pay your workers. They are unhappy"
 
-        self.budget -= sum_salary
-        return f"You payed your workers. They are happy. Budget left: {self.budget}"
+        self.__budget -= sum_salary
+        return f"You payed your workers. They are happy. Budget left: {self.__budget}"
 
     def tend_animals(self):
         sum_tend_animals = self.__sum_tend_animals()
-        if self.budget < sum_tend_animals:
+        if self.__budget < sum_tend_animals:
             return "You have no budget to tend the animals. They are unhappy."
 
-        self.budget -= sum_tend_animals
-        return f"You tended all the animals. They are happy. Budget left: {self.budget}"
+        self.__budget -= sum_tend_animals
+        return f"You tended all the animals. They are happy. Budget left: {self.__budget}"
 
     def profit(self, amount):
-        self.budget += amount
+        self.__budget += amount
 
     def animals_status(self):
+        result = ""
         count = len(self.animals)
-        print(f"You have {count} animals")
+        result += f"You have {count} animals\n"
+
         filtred_lions = self.__filter_animals("Lion")
         length_lions = len(filtred_lions)
-        print(f"----- {length_lions} Lions:")
+        result += f"----- {length_lions} Lions:\n"
         for obj in filtred_lions:
-            print(obj)
+            result += f"{obj}\n"
 
         filtred_tigers = self.__filter_animals("Tiger")
         length_tigers = len(filtred_tigers)
-        print(f"----- {length_tigers} Tiger:")
+        result += f"----- {length_tigers} Tigers:\n"
         for obj in filtred_tigers:
-            print(obj)
+            result += f"{obj}\n"
 
         filtred_cheetahs = self.__filter_animals("Cheetah")
         length_cheetahs = len(filtred_cheetahs)
-        print(f"----- {length_cheetahs} Cheetah:")
+        result += f"----- {length_cheetahs} Cheetahs:\n"
         for obj in filtred_cheetahs:
-            print(obj)
-        return f""
+            result += f"{obj}\n"
+        return result
 
     def workers_status(self):
+        result = ""
         count = len(self.workers)
-        print(f"You have {count} workers")
+        result += f"You have {count} workers\n"
 
         filtred_keepers = self.__filter_workers("Keeper")
         length_keepers = len(filtred_keepers)
-        print(f"----- {length_keepers} Keepers:")
+        result += f"----- {length_keepers} Keepers:\n"
         for obj in filtred_keepers:
-            print(obj)
+            result += f"{obj}\n"
 
         filtred_caretaker = self.__filter_workers("Caretaker")
         length_caretaker = len(filtred_caretaker)
-        print(f"----- {length_caretaker} Caretakers:")
+        result += f"----- {length_caretaker} Caretakers:\n"
         for obj in filtred_caretaker:
-            print(obj)
+            result += f"{obj}\n"
 
         filtred_vetes = self.__filter_workers("Vet")
         length_vetes = len(filtred_vetes)
-        print(f"----- {length_vetes} Vets:")
+        result += f"----- {length_vetes} Vets:\n"
         for obj in filtred_vetes:
-            print(obj)
-        return f""
+            result += f"{obj}\n"
+        return result
 
 
 zoo = Zoo("Zootopia", 3000, 5, 8)
 
-# Animals creation
+
 animals = [Cheetah("Cheeto", "Male", 2), Cheetah("Cheetia", "Female", 1), Lion("Simba", "Male", 4), Tiger("Zuba", "Male", 3), Tiger("Tigeria", "Female", 1), Lion("Nala", "Female", 4)]
 
 # Animal prices
