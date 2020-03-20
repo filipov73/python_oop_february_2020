@@ -1,3 +1,5 @@
+import timeit
+a = """
 class custom_range_iterator:
     def __init__(self, first, last):
         self.index = first
@@ -20,19 +22,25 @@ class custom_range:
         return custom_range_iterator(self.first, self.last)
 
 
-one_to_ten = custom_range(1, 4)
+one_to_ten = custom_range(1, 10000000)
 for num in one_to_ten:
-    print(num)
+    pass
+    # print(num)
+"""
+b = "[x for x in range(10000000)]"
 
+c = """
+def custom_random(min, max):
+    for i in range(min, max):
+        yield i
 
+[x for x in custom_random(1, 10000000)]
+"""
 
+aa = timeit.timeit(a, number=1)
+bb = timeit.timeit(b, number=1)
+cc = timeit.timeit(c, number=1)
 
-
-
-
-
-
-
-
-
-
+print(aa)
+print(bb)
+print(cc)
